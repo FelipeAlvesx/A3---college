@@ -87,27 +87,31 @@ public class Programa {
 
             switch (escolha) {
                 case 1:
-                    System.out.println("Iniciar Diarias");
                     iniciarDiarias();
-                    // Adicione aqui a lógica para a Opção A
                     break;
                 case 2:
-                    System.out.println("vizualizar diarias");
                     vizualizarDiarias();
-                    // Adicione aqui a lógica para a Opção B
                     break;
                 case 3:
-                    System.out.println("finalizar diarias");
-                    break; // Sai do submenu e volta ao menu principal
+                    finalizarDiarias();
+                    break;
 
                 case 4:
-                    return; // Sai do submenu e volta ao menu principal
+                    return;
                 default:
                     System.out.println("Opção inválida! Tente novamente.");
             }
 
 
         }
+    }
+
+    private static void finalizarDiarias() {
+        System.out.println("Digite a placa"); String placa = scanner.nextLine();
+
+        // encerra uma diaria e exibe metodos de pagamento e valor final
+
+
     }
 
     private static void vizualizarDiarias() {
@@ -118,26 +122,32 @@ public class Programa {
     }
 
     private static void iniciarDiarias() {
-        System.out.print("Digite placa: ");
-        String placa = scanner.nextLine();
+        System.out.print("Digite placa: "); String placa = scanner.nextLine();
+        System.out.println("Cpf do cliente: "); String cpfCliente = scanner.nextLine();
+        System.out.println("QUantidade de dias: "); int quantidadeDias = scanner.nextInt();
+        scanner.nextLine();
 
+        if(quantidadeDias > 1){
+            boolean carroEncontrado = false; // Flag para verificar se o carro foi encontrado
+            for (Carro c : listaDeCarros) {
+                if (c.getPlaca().equalsIgnoreCase(placa)) {
+                    System.out.println("Diária iniciada para o carro: " + c.getModelo());
 
-        boolean carroEncontrado = false; // Flag para verificar se o carro foi encontrado
-        for (Carro c : listaDeCarros) {
-            if (c.getPlaca().equalsIgnoreCase(placa)) {
-                System.out.println("Diária iniciada para o carro: " + c.getModelo());
-
-                listaDeDiarias.add(new Diaria(c, 10));
-                System.out.println("Lista de Diárias atualizada: " + listaDeDiarias);
-                System.out.println("Diária iniciada!");
-                carroEncontrado = true; // Define a flag como true
-                break; // Sai do loop, pois o carro foi encontrado
+                    listaDeDiarias.add(new Diaria(c, quantidadeDias, cpfCliente));
+                    System.out.println("Lista de Diárias atualizada: " + listaDeDiarias);
+                    System.out.println("Diária iniciada!");
+                    carroEncontrado = true; // Define a flag como true
+                    break; //
+                }
             }
+
+            if (!carroEncontrado) { // Se a flag ainda for false, o carro não foi encontrado
+                System.out.println("Carro não encontrado!");
+            }
+        }else {
+            System.out.println("Quantidade de dias inválida! Deve ser maior que 1.");
         }
 
-        if (!carroEncontrado) { // Se a flag ainda for false, o carro não foi encontrado
-            System.out.println("Carro não encontrado!");
-        }
 
     }
 
