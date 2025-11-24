@@ -8,6 +8,7 @@ public class Programa {
 
     private static Scanner scanner = new Scanner(System.in);
     private static ArrayList<Carro> listaDeCarros = new ArrayList<>();
+    private static ArrayList<Carro> listaDeDiarias = new ArrayList<>();
 
     public static void main(String[] args) {
 
@@ -29,7 +30,8 @@ public class Programa {
             System.out.println("3 - Buscar carro");
             System.out.println("4 - Editar carro");
             System.out.println("5 - Remover carro");
-            System.out.println("6 - Sair");
+            System.out.println("6 - Gerenciar diarias");
+            System.out.println("7 - Sair");
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
             scanner.nextLine(); // Limpar buffer
@@ -50,8 +52,15 @@ public class Programa {
                 case 5:
                     removerCarro();
                     break;
+
                 case 6:
+                    exibirSubmenu();
+                    break;
+
+                case 7:
+                    System.out.println("Saindo do sistema. Até mais!");
                     System.exit(0);
+
                 default:
                     System.out.println("Opção inválida!");
 
@@ -61,7 +70,79 @@ public class Programa {
         }
     }
 
-        // Listar carros ordenados por ano
+
+
+
+    public static void exibirSubmenu() {
+        while (true) {
+            System.out.println("\n--- Submenu ---");
+            System.out.println("1. iniciar Diarias");
+            System.out.println("2. vizualizar diarias");
+            System.out.println("3. finalizar diarias");
+            System.out.println("4. voltar");
+            System.out.print("Escolha uma opção: ");
+
+            int escolha = scanner.nextInt();
+            scanner.nextLine(); // Limpar buffer
+
+            switch (escolha) {
+                case 1:
+                    System.out.println("Iniciar Diarias");
+                    iniciarDiarias();
+                    // Adicione aqui a lógica para a Opção A
+                    break;
+                case 2:
+                    System.out.println("vizualizar diarias");
+                    vizualizarDiarias();
+                    // Adicione aqui a lógica para a Opção B
+                    break;
+                case 3:
+                    System.out.println("finalizar diarias");
+                    break; // Sai do submenu e volta ao menu principal
+
+                case 4:
+                    return; // Sai do submenu e volta ao menu principal
+                default:
+                    System.out.println("Opção inválida! Tente novamente.");
+            }
+
+
+        }
+    }
+
+    private static void vizualizarDiarias() {
+        System.out.println("Lista de Diárias:");
+        for (Carro d : listaDeDiarias) {
+            System.out.println(d);
+        }
+    }
+
+    private static void iniciarDiarias() {
+        System.out.print("Digite placa: ");
+        String placa = scanner.nextLine();
+
+
+        boolean carroEncontrado = false; // Flag para verificar se o carro foi encontrado
+        for (Carro c : listaDeCarros) {
+            if (c.getPlaca().equalsIgnoreCase(placa)) {
+                System.out.println("Diária iniciada para o carro: " + c.getModelo());
+
+                listaDeDiarias.add(new Diaria(c, 10));
+                System.out.println("Lista de Diárias atualizada: " + listaDeDiarias);
+                System.out.println("Diária iniciada!");
+                carroEncontrado = true; // Define a flag como true
+                break; // Sai do loop, pois o carro foi encontrado
+            }
+        }
+
+        if (!carroEncontrado) { // Se a flag ainda for false, o carro não foi encontrado
+            System.out.println("Carro não encontrado!");
+        }
+
+    }
+
+
+    // Listar carros ordenados por ano
         private static void listarCarros() {
             // Ordena por ano crescente
             Collections.sort(listaDeCarros, Comparator.comparingInt(Carro::getAno));
@@ -88,8 +169,9 @@ public class Programa {
                 System.out.print("Digite nível de conforto: "); String conforto = scanner.nextLine();
                 System.out.print("Seguro incluso? (S/N): "); String seguro = scanner.nextLine();
                 listaDeCarros.add(new CarroDeLuxo(placa, modelo, marca, ano, valor, conforto, seguro.equalsIgnoreCase("S")));
-            }
+            } else{
                 listaDeCarros.add(new Carro(placa, modelo, marca, ano, valor));
+            }
 
             System.out.println("Carro cadastrado com sucesso!");
         }
@@ -149,6 +231,8 @@ public class Programa {
                 }
             }
             System.out.println("Carro não encontrado!");
+
+
         }
 
 
