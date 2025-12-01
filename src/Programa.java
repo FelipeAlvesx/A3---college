@@ -8,7 +8,7 @@ public class Programa {
 
     private static Scanner scanner = new Scanner(System.in);
     private static ArrayList<Carro> listaDeCarros = new ArrayList<>();
-    private static ArrayList<Carro> listaDeDiarias = new ArrayList<>();
+    private static ArrayList<Diaria> listaDeDiarias = new ArrayList<>();
 
     public static void main(String[] args) {
 
@@ -63,14 +63,9 @@ public class Programa {
 
                 default:
                     System.out.println("Opção inválida!");
-
             }
-
-
         }
     }
-
-
 
 
     public static void exibirSubmenu() {
@@ -101,22 +96,31 @@ public class Programa {
                 default:
                     System.out.println("Opção inválida! Tente novamente.");
             }
-
-
         }
     }
 
+
+    // FALTA IMPLEMENTAR
     private static void finalizarDiarias() {
         System.out.println("Digite a placa"); String placa = scanner.nextLine();
 
-        // encerra uma diaria e exibe metodos de pagamento e valor final
+        for (Diaria c : listaDeDiarias) {
+            // Adiciona uma verificação para garantir que a placa não é null
+            if (c.getCarro().getPlaca() != null && c.getCarro().getPlaca().equalsIgnoreCase(placa)) {
+                System.out.println("Diária finalizada para o carro: " + c.getCarro().getModelo());
+                System.out.println("Valor total da diária Cartão: R$ " + String.format("%.2f", c.valorTotal()));
+                System.out.println("Se Pagamento no pix tem 10% de desconto: R$ " + String.format("%.2f", c.valorTotal() * 0.9));
 
-
+                listaDeDiarias.remove(c);
+                return;
+            }
+        }
+        System.out.println("Carro não encontrado!");
     }
 
     private static void vizualizarDiarias() {
         System.out.println("Lista de Diárias:");
-        for (Carro d : listaDeDiarias) {
+        for (Diaria d : listaDeDiarias) {
             System.out.println(d);
         }
     }
@@ -124,7 +128,7 @@ public class Programa {
     private static void iniciarDiarias() {
         System.out.print("Digite placa: "); String placa = scanner.nextLine();
         System.out.println("Cpf do cliente: "); String cpfCliente = scanner.nextLine();
-        System.out.println("QUantidade de dias: "); int quantidadeDias = scanner.nextInt();
+        System.out.println("Quantidade de dias: "); int quantidadeDias = scanner.nextInt();
         scanner.nextLine();
 
         if(quantidadeDias > 1){
@@ -144,11 +148,10 @@ public class Programa {
             if (!carroEncontrado) { // Se a flag ainda for false, o carro não foi encontrado
                 System.out.println("Carro não encontrado!");
             }
-        }else {
-            System.out.println("Quantidade de dias inválida! Deve ser maior que 1.");
+
+        }   else {
+                System.out.println("Quantidade de dias inválida! Deve ser maior que 1.");
         }
-
-
     }
 
 
